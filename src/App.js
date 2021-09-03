@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pokemon from './Pokemon';
+import './App.css';
 
 export default function App() {
   const [pokemons, setPokemons] = useState([]);
@@ -17,7 +18,6 @@ export default function App() {
   useEffect(() => {
     handlePokemons();
   }, []);
-
 
   return (
     <>

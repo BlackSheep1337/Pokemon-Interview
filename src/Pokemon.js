@@ -7,7 +7,6 @@ export default function Pokemon({ pokemons }) {
     url: '',
   });
   const [infoPokemon, setInfoPokemon] = useState([]);
-  const [isLoading, setIsloading] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -32,42 +31,46 @@ export default function Pokemon({ pokemons }) {
     handleSinglePokemon();
   }, [pokemon]);
 
-  const getTypeDetails = async (url) => {
-    try {
-      const { data } = await axios.get(url);
-      return data;
-    } catch (error) {
-      console.log('err types', error);
-    }
-  }
+  const colors = {
+    fire: '#FDDFDF',
+    grass: '#DEFDE0',
+    electric: '#FCF7DE',
+    water: '#DEF3FD',
+    ground: '#f4e7da',
+    rock: '#d5d5d4',
+    fairy: '#fceaff',
+    poison: '#98d7a5',
+    bug: '#f8d5a3',
+    dragon: '#97b3e6',
+    psychic: '#eaeda1',
+    flying: '#F5F5F5',
+    fighting: '#E6E0D4',
+    normal: '#F5F5F5'
+  };
+  //https://codepen.io/FlorinPop17/pen/gOYZxyE
+
+
   return (
     <Container>
       <img src="https://random-pokemon-v2.herokuapp.com/static/media/logo.e478e686.png" alt="pokemon" />
-      <button onClick={ handleClick }>Get a random pokémon</button>
-      <div className="pokemon">
+      <button className="btn-primary" onClick={ handleClick }>Get a random pokémon</button>
+      <div>
         {
           infoPokemon.length === 0 ? <h3>Click on "Get a random pokémon"</h3>
-          : 
-          (
-            <article>
-              <img src={ infoPokemon.sprites.front_default } alt={ infoPokemon.name } />
-              <span>{ infoPokemon.name }</span>
-              <div className="info">
-                { infoPokemon.types.map((type, idx) => {
-                  getTypeDetails(type.type.url)
-                  .then((resp) => console.log(resp))
-                  console.log(type.type.name);
-                  console.log(infoPokemon)
-
-                  return (
-                    <span key={ idx }>
-                      { type.type.name }
-                    </span>
-                  )
-                })}
-              </div>
-            </article>
-          ) 
+          :
+          <article style={{ background: colors[infoPokemon.types[0].type.name]}}>
+            <img src={ infoPokemon.sprites.front_default } alt={ infoPokemon.name } />
+            <h1>{ infoPokemon.name }</h1>
+            <div className="info">
+              { infoPokemon.types.map((type, idx) => {
+                return (
+                  <span key={ idx }>
+                    { type.type.name }
+                  </span>
+                )
+              })}
+            </div>
+          </article>
         }
       </div>
     </Container>
